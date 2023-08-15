@@ -1,3 +1,20 @@
+## Liste de commande et paquete
+
+**commande**
+/client : `yarn start`
+/api : `nodedemon index.js`
+
+**paquet**
+api/ :
+
+- `yarn add bcryptjs`
+- `yarn global add nodemon`
+- `yarn global add mongoose`
+- `cors`
+
+**A revoir**
+Les callBack
+
 ## Introduction au Tutoriel
 
 Dans ce tutoriel, nous allons construire une application de blog full stack en utilisant la stack MERN (MongoDB, Express, React et Node).
@@ -367,3 +384,234 @@ Ensuite, le code crée un modèle d'utilisateur basé sur le schéma défini. Ce
 Enfin, le modèle d'utilisateur est exporté, ce qui signifie que d'autres parties du code peuvent l'utiliser pour ajouter, obtenir, mettre à jour ou supprimer des informations sur les utilisateurs dans la base de données.
 
 En résumé, ce code définit comment les informations des utilisateurs sont organisées et stockées dans une base de données MongoDB à l'aide de la bibliothèque "mongoose".
+
+---
+
+2e explication
+
+#### Explication du Code : Modèle Mongoose pour les Utilisateurs
+
+```js
+const mongoose = require("mongoose");
+const { Schema, model } = mongoose;
+
+// Définition du schéma utilisateur
+const UserSchema = new Schema({
+  username: { type: String, required: true, min: 4, unique: true },
+  password: { type: String, required: true },
+});
+
+// Création du modèle utilisateur à partir du schéma
+const UserModel = model("User", UserSchema);
+
+// Exportation du modèle pour une utilisation externe
+module.exports = UserModel;
+```
+
+Ce code illustre la définition d'un modèle Mongoose pour les utilisateurs, qui peut être utilisé pour interagir avec la base de données MongoDB. Voici une explication ligne par ligne :
+
+Importation des modules : Les modules mongoose, Schema et model sont importés depuis la bibliothèque Mongoose. Ils seront utilisés pour définir le schéma du modèle et créer le modèle lui-même.
+
+Définition du schéma utilisateur : Un schéma est défini en utilisant new Schema({...}). Dans ce schéma, deux champs sont définis :
+
+username: Un champ de type String qui est requis (required: true). De plus, min: 4 spécifie que la longueur minimale du nom d'utilisateur doit être de 4 caractères. unique: true garantit que chaque nom d'utilisateur est unique dans la base de données.
+password: Un champ de type String qui est requis (required: true).
+Création du modèle utilisateur : Le modèle utilisateur est créé en utilisant la fonction model("User", UserSchema). "User" est le nom du modèle, et UserSchema est le schéma que nous venons de définir.
+
+Exportation du modèle : Le modèle utilisateur est exporté à l'aide de module.exports. Cela permet à d'autres parties de l'application d'importer ce modèle et de l'utiliser pour interagir avec la base de données.
+
+Ce code encapsule la structure et les contraintes des données utilisateur dans un schéma Mongoose. Il facilite la création, la lecture, la mise à jour et la suppression des enregistrements d'utilisateurs dans la base de données MongoDB.
+
+Ce code communique avec `api\index.js`
+
+```js
+const express = require("express");
+const cors = require("cors");
+const { default: mongoose } = require("mongoose");
+const app = express();
+const User = require("./models/User");
+
+// Activation de la gestion des requêtes cross-origin et du traitement du JSON
+app.use(cors());
+app.use(express.json());
+
+// Connexion à la base de données MongoDB
+mongoose.connect(
+  "mongodb+srv://wilonweb:dCC7R5eSXaXcn07Z@cluster0.tfjisx6.mongodb.net/?retryWrites=true&w=majority"
+);
+
+// Route pour l'inscription d'un utilisateur
+app.post("/register", async (req, res) => {
+  const { username, password } = req.body;
+  const UserDoc = await User.create({
+    username,
+    password,
+  });
+  res.json(UserDoc);
+});
+
+// Démarrage du serveur sur le port 4000
+app.listen(4000);
+```
+
+Dans ce code d'exemple, nous utilisons Node.js avec Express.js pour créer un serveur back-end simple permettant l'inscription d'utilisateurs dans une base de données MongoDB en utilisant Mongoose.
+
+#### Ajout des erreur avec try catch
+
+Maintenant on ajoute try et catch pour gerer les erreur afin d'afficher si l'enregistrement c'est bien passé ou pas.  
+`api\index.js`
+
+```js
+const express = require("express");
+const cors = require("cors");
+const { default: mongoose } = require("mongoose");
+const app = express();
+const User = require("./models/User");
+
+// Activation de la gestion des requêtes cross-origin et du traitement du JSON
+app.use(cors());
+app.use(express.json());
+
+// Connexion à la base de données MongoDB
+mongoose.connect(
+  "mongodb+srv://wilonweb:dCC7R5eSXaXcn07Z@cluster0.tfjisx6.mongodb.net/?retryWrites=true&w=majority"
+);
+
+// Route pour l'inscription d'un utilisateur
+app.post("/register", async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    const UserDoc = await User.create({
+      username,
+      password,
+    });
+    res.json(UserDoc);
+  } catch (e) {
+    res.status(400).json(e);
+  }
+});
+
+app.listen(4000);
+//dCC7R5eSXaXcn07Z
+//mongodb+srv://wilonweb:dCC7R5eSXaXcn07Z@cluster0.tfjisx6.mongodb.net/?retryWrites=true&w=majority
+```
+
+`client\src\Pages\RegisterPage.js`
+
+```js
+import { useState } from "react";
+
+export default function RegisterPage() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  async function register(ev) {
+    ev.preventDefault();
+    try {
+      const response = await fetch("http://localhost:4000/register", {
+        method: "POST",
+        body: JSON.stringify({ username, password }),
+        headers: { "Content-Type": "application/json" },
+      });
+      if (response.status === 200) {
+        alert("registration succesful");
+      } else {
+        alert("registration failed");
+      }
+    } catch (e) {
+      alert("Registration failed. Try again Later");
+    }
+  }
+  return (
+    <form className="register" onSubmit={register}>
+      <h1>Register</h1>
+      <input
+        type="text"
+        placeholder="username"
+        value={username}
+        onChange={(ev) => setUsername(ev.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="password"
+        value={password}
+        onChange={(ev) => setPassword(ev.target.value)}
+      />
+      <button>Register</button>
+    </form>
+  );
+}
+```
+
+**Question**
+Est ce parceque j'ai mis les try and catch que je ne vois plus les requete vers MongoDb apparaitre dans le devTools(network)
+
+#### Encrypter le mot de passe avec bcryptjs
+
+installation de `yarn bcryptjs` afin de pouvoir hasher le password des utilisateur qui ss'enregistre.
+
+On initialise bcrypt et salt dans notre `api\index.js` afin de d'utiliser une fonctionalité de hashing sur la propriété password de notre l'objet UserDoc servant a créer un nouvel utilisateur dans la Base de donnée.
+
+##### Capturer les information d'un formulaire avec MERN
+
+On prend pour exemple la page de Login
+On commence par déclarer le use state de nos champs usernamme et password.
+
+Puis dans `<input>` on déclare un evenement de changement dans leur champs correspondant en déclarant un attribut `value={username}` afin de lié le champs au useState permettant de faire en sorte que la valeur de `username` soit toujours égale à `username` dans le composant.
+Puis on déclare un evenement `onChange={(ev) => setUserName(ev.target.value)}` qui se déclenche a chaque fois le contenu du code est modifié.
+
+Puis on déclare l'attribut `onSubmit()={login}` pour que le formulaire apelle la fonction login que l'on créer pour
+
+```js
+async function login(ev) {
+  ev.preventDefault(); // Empeche que la page se recharge quand un formulaire est soumis
+
+  // Utilise la fonction fetch pour envoyer une requête POST au serveur
+  await fetch("http://localhost:4000/login", {
+    method: "POST",
+    body: JSON.stringify({ username, password }),
+    headers: { "Content-Type": "application/json" }, // indique que le corps de la requête est au format JSON.
+  });
+}
+``;
+```
+
+Ensuite on verifie si l'username correspond au mot de passe hashé dans `api\index.js`
+
+```js
+//Route pour vérifier que le username = password crypté dans la page login
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+  const userDoc = await User.findOne({ username });
+  const passOK = bcrypt.compareSync(password, userDoc.password);
+});
+```
+
+Maintenant nous allons utiliser `yarn add jsonwebtoken` pour faire en sorte que l'utilisateur soit connecté.
+On l'initialise dans index.js
+Puis on créer une condition qui transmet un token si le combo username/password est ok
+
+```js
+  if (passOk) {
+    // logged in
+    jwt.sign({ username, id: userDoc._id }, secret, {}, (err, token) => {
+      if (err) throw err;
+      //res.json(token); Pour verifier que le token fonctionne
+      res.cookie("token", token).json("ok"); // Ajoute un cookie nommé token dans response.
+    });
+    ...
+  }
+```
+
+Puis on définis dans la fonction `login`
+la ligne de code `credentials: "include",` permettant que le cookie est conservé meme quand l'utilisateur visite d'autre URL du site.
+Sans oublier d'indiquer a la CORS d'inclure les cookie au requete dont l'url d'origine et celle du site. (`api/index.js`)
+
+`app.use(cors({ credentials: true, origin: "http://localhost:3000" }));`
+
+#### Redirection vers la homePage si l'utilisateur est logger.
+
+On créer un hook useState pour la redirection
+
+On créer la condition de parametrer la redirection si la response est ok
+
+puis on retourne a l'url d'orignine si c'est ok avec le module Navigate de react-router-dom
