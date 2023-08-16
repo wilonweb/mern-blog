@@ -15,8 +15,8 @@ D'après le cours YouTube :
 
 - S'habituer à la syntaxe des callbacks.
 - Créer un exercice personnel sur l'utilisation du `useState` permettant de créer des formulaires interactifs où les changements apportés par l'utilisateur sont reflétés en temps réel dans l'interface utilisateur.
-- Créer un exercice personnel sur l'utilisation du `useEffect` permettant de créer un événement quand l'état d'un composant est mis à jour
-  **Exemple** :
+- Créer un exercice personnel sur l'utilisation du `useEffect` permettant de créer un événement quand l'état d'un composant est mis à jour\
+  **Exemple** :\
   _garder le cookie qui stocke le JWT pour conserver les informations de l'utilisateur à chaque page (à vérifier)_.
 - Les opérations `register`, `login` et `logout` permettent de communiquer avec le protocole HTTP pour écouter des requêtes GET, POST, UPDATE et DELETE, et de déclencher un événement en conséquence.
   - Stocker ou récupérer une information dans une base de données (`register`).
