@@ -5,6 +5,7 @@ const app = express();
 const User = require("./models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
 
 const salt = bcrypt.genSaltSync(10);
 const secret = "joijoifjofdijfdoidj64654";
@@ -12,6 +13,9 @@ const secret = "joijoifjofdijfdoidj64654";
 // Activation de la gestion des requêtes cross-origin et du traitement du JSON
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(express.json());
+
+//
+app.use(cookieParser());
 
 // Connexion à la base de données MongoDB
 mongoose.connect(
@@ -49,6 +53,15 @@ app.post("/login", async (req, res) => {
     // not logged in
     res.status(400).json("wrong credentials");
   }
+});
+
+// Requete GET afin de recevoir des information du profil
+app.get("/profile", (req, res) => {
+  const { token } = req.cookies;
+  jwt.verify(token, secret, {}, (err, info) => {
+    if (err) throw err;
+    res.json(info);
+  });
 });
 
 app.listen(4000);

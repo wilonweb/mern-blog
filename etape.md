@@ -1,16 +1,8 @@
-## Liste de commande et paquete
+## Liste de commande
 
 **commande**
 /client : `yarn start`
 /api : `nodedemon index.js`
-
-**paquet**
-api/ :
-
-- `yarn add bcryptjs`
-- `yarn global add nodemon`
-- `yarn global add mongoose`
-- `cors`
 
 **A revoir**
 Les callBack
@@ -614,4 +606,51 @@ On créer un hook useState pour la redirection
 
 On créer la condition de parametrer la redirection si la response est ok
 
-puis on retourne a l'url d'orignine si c'est ok avec le module Navigate de react-router-dom
+puis on retourne à l'url d'orignine si c'est ok avec le module Navigate de react-router-dom
+
+### Verifier si l'utilisateur est connecté
+
+- **Vérification de la connexion** :
+  L'objectif est de vérifier si l'utilisateur est connecté. L'utilisateur est identifié par un jeton (token) stocké dans les cookies.
+  Mais comme n'importe qui peut définir un cookie dans le navigateur
+  Nous devons alors verifier si le token est valide en installant `yarn add cookie-parser` et en l'initialisant dans `api/index.js` et en récupérant les information du profile avec une requete GET
+
+```js
+app.get("/profile", (req, res) => {
+  res.json(req.cookies);
+});
+```
+
+Et en utilisant un useEffect quand le composant `client/Header.js` est monté pour récupérer les informations du profil a chaque page.
+
+```js
+useEffect(() => {
+  fetch("http://localhost:4000/profile", {
+    credentials: "include",
+  });
+});
+```
+
+- **Suppression des éléments de connexion** : Lorsque l'utilisateur est connecté, les éléments de connexion et d'inscription ne doivent pas être visibles. L'objectif est de les cacher.
+
+- **Création d'un point d'accès** : Pour vérifier la validité du jeton, il faut créer un point d'accès côté serveur appelé "/profile". Ce point d'accès est une requête GET qui renvoie les informations de profil de l'utilisateur.
+
+Utilisation des cookies : Les cookies sont envoyés avec la requête vers "/profile". Le middleware "cookie-parser" est utilisé pour analyser les cookies et récupérer le jeton.
+
+Vérification du jeton : Le jeton est vérifié en utilisant la bibliothèque "jsonwebtoken". Si le jeton est valide, les informations du profil de l'utilisateur sont renvoyées dans la réponse JSON.
+
+Mise à jour de l'interface utilisateur : Si l'utilisateur est connecté, l'interface utilisateur affiche des liens pour créer un nouvel article et se déconnecter. Sinon, les liens de connexion et d'inscription sont affichés.
+
+Manipulation de l'état : Le hook useState est utilisé pour stocker le nom d'utilisateur dans l'état. Lorsque les informations du profil sont obtenues, le nom d'utilisateur est extrait et mis à jour dans l'état.
+
+Affichage conditionnel : L'interface utilisateur est rendue en utilisant des conditions pour afficher les éléments appropriés en fonction de l'état de connexion de l'utilisateur.
+
+Pour ça on définit un point d'acces appelé profile dans `api\index.js` avec une requete GET qui retournera les information de profile
+
+```js
+app.get("/profile", (req, res) => {
+  res.json(req.cookies);
+});
+```
+
+Puis on vas analyser le cookie avec `yarn add cookie-parser`
