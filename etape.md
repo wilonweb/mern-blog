@@ -9,6 +9,9 @@ Les callBack
 
 ## Introduction au Tutoriel
 
+D'après le cours youtube [Build a Fullstack Blog App using MERN (mongo, express, react, node)
+](https://www.youtube.com/watch?v=xKs2IZZya7c&t=10566s) de [Coding With Dawid](https://www.youtube.com/@CodingWithDawid)
+
 Dans ce tutoriel, nous allons construire une application de blog full stack en utilisant la stack MERN (MongoDB, Express, React et Node).
 From scratch
 
@@ -631,19 +634,35 @@ useEffect(() => {
 });
 ```
 
-- **Suppression des éléments de connexion** : Lorsque l'utilisateur est connecté, les éléments de connexion et d'inscription ne doivent pas être visibles. L'objectif est de les cacher.
+**Mise à jour de l'interface utilisateur** : Si l'utilisateur est connecté, l'interface utilisateur affiche des liens pour créer un nouvel article et se déconnecter. Sinon, les liens de connexion et d'inscription sont affichés.
 
-- **Création d'un point d'accès** : Pour vérifier la validité du jeton, il faut créer un point d'accès côté serveur appelé "/profile". Ce point d'accès est une requête GET qui renvoie les informations de profil de l'utilisateur.
+Pour cela on crée une condition dans le composant `Header.js`
 
-Utilisation des cookies : Les cookies sont envoyés avec la requête vers "/profile". Le middleware "cookie-parser" est utilisé pour analyser les cookies et récupérer le jeton.
+```js
+return (
+  <header>
+    {/* ... Autres éléments du header ... */}
+    <nav>
+      {username && (
+        <>
+          <Link to="/create">Create new Post</Link>
+          <a>logout</a>
+        </>
+      )}
+      {!username && (
+        <>
+          <Link to="/login">Login</Link>
+          <Link to="/register">Register</Link>
+        </>
+      )}
+    </nav>
+  </header>
+);
+```
 
-Vérification du jeton : Le jeton est vérifié en utilisant la bibliothèque "jsonwebtoken". Si le jeton est valide, les informations du profil de l'utilisateur sont renvoyées dans la réponse JSON.
+**Manipulation de l'état** : Le hook useState est utilisé pour stocker le nom d'utilisateur dans l'état. Lorsque les informations du profil sont obtenues, le nom d'utilisateur est extrait et mis à jour dans l'état.
 
-Mise à jour de l'interface utilisateur : Si l'utilisateur est connecté, l'interface utilisateur affiche des liens pour créer un nouvel article et se déconnecter. Sinon, les liens de connexion et d'inscription sont affichés.
-
-Manipulation de l'état : Le hook useState est utilisé pour stocker le nom d'utilisateur dans l'état. Lorsque les informations du profil sont obtenues, le nom d'utilisateur est extrait et mis à jour dans l'état.
-
-Affichage conditionnel : L'interface utilisateur est rendue en utilisant des conditions pour afficher les éléments appropriés en fonction de l'état de connexion de l'utilisateur.
+**Affichage conditionnel** : L'interface utilisateur est rendue en utilisant des conditions pour afficher les éléments appropriés en fonction de l'état de connexion de l'utilisateur.
 
 Pour ça on définit un point d'acces appelé profile dans `api\index.js` avec une requete GET qui retournera les information de profile
 

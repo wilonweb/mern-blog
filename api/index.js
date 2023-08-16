@@ -57,7 +57,7 @@ app.post("/login", async (req, res) => {
 
 // Requete GET afin de recevoir des information du profil
 app.get("/profile", (req, res) => {
-  const { token } = req.cookies;
+  const { token } = req.cookies; // extrait la propriété token de l'objet req.cookies et d'assigner sa valeur à la variable token.
   jwt.verify(token, secret, {}, (err, info) => {
     if (err) throw err;
     res.json(info);
