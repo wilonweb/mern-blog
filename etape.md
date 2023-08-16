@@ -1,19 +1,28 @@
-## Liste de commande
+## Présentation du Tutoriel
 
-**commande**
-/client : `yarn start`
-/api : `nodedemon index.js`
+Dans ce tutoriel, nous allons construire une application de blog full stack en utilisant la stack MERN (MongoDB, Express, React et Node) à partir de zéro.
 
-**A revoir**
-Les callBack
+D'après le cours YouTube :
+[Build a Fullstack Blog App using MERN (mongo, express, react, node)](https://www.youtube.com/watch?v=xKs2IZZya7c&t=10566s) de [Coding With Dawid](https://www.youtube.com/@CodingWithDawid)
 
-## Introduction au Tutoriel
+## Liste de commandes
 
-D'après le cours youtube [Build a Fullstack Blog App using MERN (mongo, express, react, node)
-](https://www.youtube.com/watch?v=xKs2IZZya7c&t=10566s) de [Coding With Dawid](https://www.youtube.com/@CodingWithDawid)
+- **Commandes**
+  - /client : `yarn start`
+  - /api : `nodemon index.js`
 
-Dans ce tutoriel, nous allons construire une application de blog full stack en utilisant la stack MERN (MongoDB, Express, React et Node).
-From scratch
+## Notes sur les connaissances à revoir ou à vérifier
+
+- S'habituer à la syntaxe des callbacks.
+- Créer un exercice personnel sur l'utilisation du `useState` permettant de créer des formulaires interactifs où les changements apportés par l'utilisateur sont reflétés en temps réel dans l'interface utilisateur.
+- Créer un exercice personnel sur l'utilisation du `useEffect` permettant de créer un événement quand l'état d'un composant est mis à jour.
+- Exemple : garder le cookie qui stocke le JWT pour conserver les informations de l'utilisateur à chaque page (à vérifier).
+- Les requêtes `register`, `login` et `logout` permettent de communiquer avec le protocole HTTP pour écouter des requêtes GET, POST, UPDATE et DELETE, et de déclencher un événement en conséquence.
+- Stocker ou récupérer une information dans une base de données (`register`).
+- Vérifier une information dans une base de données (`login`).
+- Effacer du contenu dans un cookie (`logout`). Question : pourquoi la requête est-elle de type POST dans ce cas ?
+
+## Initialisation du projet
 
 On commence par créer deux dossier
 
@@ -537,9 +546,6 @@ export default function RegisterPage() {
 }
 ```
 
-**Question**
-Est ce parceque j'ai mis les try and catch que je ne vois plus les requete vers MongoDb apparaitre dans le devTools(network)
-
 #### Encrypter le mot de passe avec bcryptjs
 
 installation de `yarn bcryptjs` afin de pouvoir hasher le password des utilisateur qui ss'enregistre.
@@ -634,7 +640,7 @@ useEffect(() => {
 });
 ```
 
-**Mise à jour de l'interface utilisateur** : Si l'utilisateur est connecté, l'interface utilisateur affiche des liens pour créer un nouvel article et se déconnecter. Sinon, les liens de connexion et d'inscription sont affichés.
+**Affichage conditionnel** : L'interface utilisateur est rendue en utilisant des conditions pour afficher les éléments appropriés en fonction de l'état de connexion de l'utilisateur
 
 Pour cela on crée une condition dans le composant `Header.js`
 
@@ -662,8 +668,6 @@ return (
 
 **Manipulation de l'état** : Le hook useState est utilisé pour stocker le nom d'utilisateur dans l'état. Lorsque les informations du profil sont obtenues, le nom d'utilisateur est extrait et mis à jour dans l'état.
 
-**Affichage conditionnel** : L'interface utilisateur est rendue en utilisant des conditions pour afficher les éléments appropriés en fonction de l'état de connexion de l'utilisateur.
-
 Pour ça on définit un point d'acces appelé profile dans `api\index.js` avec une requete GET qui retournera les information de profile
 
 ```js
@@ -672,4 +676,21 @@ app.get("/profile", (req, res) => {
 });
 ```
 
-Puis on vas analyser le cookie avec `yarn add cookie-parser`
+Puis on vas analyser le cookie avec `yarn add cookie-parser` pour ...
+Chapitre a revoir !!!!
+
+### Fonctionalité logout
+
+- Une fonction de déconnexion`logout` a été ajoutée au composant header avec un gestionnaire d'événement onClick.
+- Lorsqu'un utilisateur clique sur le bouton dédié, la fonction de déconnexion est déclenchée.
+
+- Une requête POST est envoyée à l'URL `/logout` dans `api/index.js` pour confirmer la déconnexion.
+
+```js
+app.post("/logout", (req, res) => {
+  res.cookie("token", "").json("ok");
+});
+```
+
+Cependant a ce stade si on essaie de se relogger ça ne fonctionne pas ....
+Et pour résoudre le probleme on vas utiliser le userContext.

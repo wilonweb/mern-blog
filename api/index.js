@@ -58,10 +58,18 @@ app.post("/login", async (req, res) => {
 // Requete GET afin de recevoir des information du profil
 app.get("/profile", (req, res) => {
   const { token } = req.cookies; // extrait la propriété token de l'objet req.cookies et d'assigner sa valeur à la variable token.
+
+  // Utilise la méthode "verify" du module "jwt" pour vérifier la validité du jeton (token).
   jwt.verify(token, secret, {}, (err, info) => {
+    // Si une erreur survient pendant la vérification du jeton, lance une exception avec l'erreur.
     if (err) throw err;
+    // Si la vérification réussit, renvoie les informations du profil (contenues dans "info") au format JSON en réponse.
     res.json(info);
   });
+});
+
+app.post("/logout", (req, res) => {
+  res.cookie("token", "").json("ok");
 });
 
 app.listen(4000);
