@@ -21,11 +21,12 @@ D'après le cours YouTube :\
   _garder le cookie qui stocke le JWT pour conserver les informations de l'utilisateur à chaque page (à vérifier comment fonctionne le system)_.
 - Les opérations `register`, `login` et `logout` permettent de communiquer avec le protocole HTTP pour écouter des requêtes GET, POST, UPDATE et DELETE depuis un endpoint pour déclencher un événement en conséquence.\
   **Exemple** :\
+
   - Stocker ou récupérer une information dans une base de données (`register`).
   - Vérifier une information dans une base de données (`login`).
   - Effacer du contenu dans un cookie (`logout`)._Question : pourquoi la requête est-elle de type POST dans ce cas ?_
 
-### Note sur le use state
+    ### Note sur le use state
 
 setRedirect est générée automatiquement par React lorsque vous utilisez la fonction useState
 
