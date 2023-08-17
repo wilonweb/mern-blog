@@ -6,7 +6,7 @@ D'après le cours YouTube :\
 [Build a Fullstack Blog App using MERN (mongo, express, react, node)](https://www.youtube.com/watch?v=xKs2IZZya7c&t=10566s)\
 @ [Coding With Dawid](https://www.youtube.com/@CodingWithDawid)
 
-## Liste de commandes
+## Liste des commandes
 
 - **Commandes**
   - /client : `yarn start`
