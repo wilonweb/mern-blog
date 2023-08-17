@@ -28,7 +28,33 @@ D'après le cours YouTube :\
 
 1. ### Note sur le use state
 
-setRedirect est générée automatiquement par React lorsque vous utilisez la fonction useState
+**`setRedirect`** est une fonction prédéfinis qui contrôle la redirection d'une page vers une autre en React
+
+````js
+import React, { useState } from "react";
+
+function RedirectExample() {
+  const [redirect, setRedirect] = useState(false);
+
+  const handleRedirect = () => {
+    setRedirect(true); // Active la redirection
+  };
+
+  if (redirect) {
+    // Si la variable redirect est vraie, redirige vers une autre page
+    return <Redirect to="/nouvelle-page" />;
+  }
+
+  return (
+    <div>
+      <button onClick={handleRedirect}>Rediriger</button>
+    </div>
+  );
+}
+
+export default RedirectExample;
+
+``
 
 ## Initialisation du projet
 
@@ -470,7 +496,7 @@ Dans ce code d'exemple, nous utilisons Node.js avec Express.js pour créer un se
 
 #### Ajout des erreur avec try catch
 
-Maintenant on ajoute try et catch pour gerer les erreur afin d'afficher si l'enregistrement c'est bien passé ou pas.  
+Maintenant on ajoute try et catch pour gerer les erreur afin d'afficher si l'enregistrement c'est bien passé ou pas.
 `api\index.js`
 
 ```js
@@ -721,3 +747,4 @@ Ensuite dans notre header au lieu d'envoyer les informations du userName nous al
 ( voir code et le commenter )
 
 Puis on vas dans login
+````
