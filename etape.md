@@ -14,14 +14,18 @@ D'après le cours YouTube :
 ## Notes sur les connaissances à revoir ou à vérifier
 
 - S'habituer à la syntaxe des callbacks.
-- Créer un exercice personnel sur l'utilisation du `useState` permettant de créer des formulaires interactifs où les changements apportés par l'utilisateur sont reflétés en temps réel dans l'interface utilisateur.
-- Créer un exercice personnel sur l'utilisation du `useEffect` permettant de créer un événement quand l'état d'un composant est mis à jour\
+- Créer un exercice sur l'utilisation du `useState` permettant de créer des formulaires interactifs où les changements apportés par l'utilisateur sont reflétés en temps réel dans l'interface utilisateur.
+- Créer un exercice sur l'utilisation du `useEffect` permettant de créer un événement quand l'état d'un composant est mis à jour\
   **Exemple** :\
-  _garder le cookie qui stocke le JWT pour conserver les informations de l'utilisateur à chaque page (à vérifier)_.
+  _garder le cookie qui stocke le JWT pour conserver les informations de l'utilisateur à chaque page (à vérifier comment fonctionne le system)_.
 - Les opérations `register`, `login` et `logout` permettent de communiquer avec le protocole HTTP pour écouter des requêtes GET, POST, UPDATE et DELETE, et de déclencher un événement en conséquence.
   - Stocker ou récupérer une information dans une base de données (`register`).
   - Vérifier une information dans une base de données (`login`).
   - Effacer du contenu dans un cookie (`logout`). Question : pourquoi la requête est-elle de type POST dans ce cas ?
+
+## A propose de use state
+
+setRedirect est générée automatiquement par React lorsque vous utilisez la fonction useState
 
 ## Initialisation du projet
 
@@ -693,5 +697,24 @@ app.post("/logout", (req, res) => {
 });
 ```
 
-Cependant a ce stade si on essaie de se relogger ça ne fonctionne pas ....
-Et pour résoudre le probleme on vas utiliser le userContext.
+Cependant à ce stade si on essaie de se relogger ça ne fonctionne pas car on ne dois pas stocker les information de l'utilisateur dans le header.
+On dois utiliser le **contexte** pour gérer ces informations.
+
+Context est une fonctionnalité de React qui permet de gérer et de partager des données entre les composants sans avoir à les transmettre à travers les niveaux de l'arborescence des composants. Il permet de créer un espace de données partagé accessible à tous les composants enfants d'un certain composant parent.
+
+Le contexte se compose de deux éléments principaux : le fournisseur de contexte et les consommateurs de contexte.
+
+**Fournisseur de contexte** : C'est un composant parent qui contient les données que vous souhaitez partager. Il crée un "contexte" et fournit des valeurs aux composants enfants qui en ont besoin.
+
+**Consommateurs de contexte** : Ce sont les composants enfants qui souhaitent accéder aux données fournies par le contexte. Ils utilisent la fonction useContext (ou la méthode this.context dans les composants de classe) pour accéder aux valeurs du contexte.
+
+Le contexte est souvent utilisé pour des informations qui sont globales pour toute l'application, telles que les données de connexion de l'utilisateur, les thèmes, les langues, etc.
+
+## User Context
+
+Création de `client/source/UserContext` ou on vas initialiser `createContext` afin de l'exporter dans le fichier `client/index.js` avec le composant `UserContextProvider`. Ce composant prendra les enfants comme parametre ...
+
+Ensuite dans notre header au lieu d'envoyer les informations du userName nous allons utiliser userContext pour mettre a jour les information de l'utilisateur pour cela
+( voir code et le commenter )
+
+Puis on vas dans login
