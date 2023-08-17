@@ -25,7 +25,7 @@ D'après le cours YouTube :\
   - Vérifier une information dans une base de données (`login`).
   - Effacer du contenu dans un cookie (`logout`)._Question : pourquoi la requête est-elle de type POST dans ce cas ?_
 
-## A propose de use state
+### Note sur le use state
 
 setRedirect est générée automatiquement par React lorsque vous utilisez la fonction useState
 
