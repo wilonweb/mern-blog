@@ -1,9 +1,10 @@
-## Présentation du Tutoriel
+## Présentation du Repo
 
-Dans ce tutoriel, nous allons construire une application de blog full stack en utilisant la stack MERN (MongoDB, Express, React et Node) à partir de zéro.
+Construire d'une application de blog full stack en utilisant la stack MERN (MongoDB, Express, React et Node) "from scratch".
 
-D'après le cours YouTube :
-[Build a Fullstack Blog App using MERN (mongo, express, react, node)](https://www.youtube.com/watch?v=xKs2IZZya7c&t=10566s) de [Coding With Dawid](https://www.youtube.com/@CodingWithDawid)
+D'après le cours YouTube :\
+[Build a Fullstack Blog App using MERN (mongo, express, react, node)](https://www.youtube.com/watch?v=xKs2IZZya7c&t=10566s)\
+@ [Coding With Dawid](https://www.youtube.com/@CodingWithDawid)
 
 ## Liste de commandes
 
