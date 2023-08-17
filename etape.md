@@ -14,7 +14,7 @@ D'après le cours YouTube :
 ## Notes sur les connaissances à revoir ou à vérifier
 
 - S'habituer à la syntaxe des callbacks.
-- Créer un exercice sur l'utilisation du `useState` permettant de créer des formulaires interactifs où les changements apportés par l'utilisateur sont reflétés en temps réel dans l'interface utilisateur.
+- Créer un exercice sur l'utilisation du `useState` permettant de créer des formulaires interactifs où les changements apportés par l'utilisateur sont modifié en temps réel dans le state.
 - Créer un exercice sur l'utilisation du `useEffect` permettant de créer un événement quand l'état d'un composant est mis à jour\
   **Exemple** :\
   _garder le cookie qui stocke le JWT pour conserver les informations de l'utilisateur à chaque page (à vérifier comment fonctionne le system)_.
