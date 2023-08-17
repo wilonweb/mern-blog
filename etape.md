@@ -1,6 +1,6 @@
 ## Présentation du Repo
 
-Construire d'une application de blog full stack en utilisant la stack MERN (MongoDB, Express, React et Node) "from scratch".
+Développement d'une application de blog full stack en utilisant la stack MERN (MongoDB, Express, React et Node) "from scratch".
 
 D'après le cours YouTube :\
 [Build a Fullstack Blog App using MERN (mongo, express, react, node)](https://www.youtube.com/watch?v=xKs2IZZya7c&t=10566s)\
@@ -19,10 +19,11 @@ D'après le cours YouTube :\
 - Créer un exercice sur l'utilisation du `useEffect` permettant de créer un événement quand l'état d'un composant est mis à jour\
   **Exemple** :\
   _garder le cookie qui stocke le JWT pour conserver les informations de l'utilisateur à chaque page (à vérifier comment fonctionne le system)_.
-- Les opérations `register`, `login` et `logout` permettent de communiquer avec le protocole HTTP pour écouter des requêtes GET, POST, UPDATE et DELETE, et de déclencher un événement en conséquence.
+- Les opérations `register`, `login` et `logout` permettent de communiquer avec le protocole HTTP pour écouter des requêtes GET, POST, UPDATE et DELETE depuis un endpoint pour déclencher un événement en conséquence.\
+  **Exemple** :\
   - Stocker ou récupérer une information dans une base de données (`register`).
   - Vérifier une information dans une base de données (`login`).
-  - Effacer du contenu dans un cookie (`logout`). Question : pourquoi la requête est-elle de type POST dans ce cas ?
+  - Effacer du contenu dans un cookie (`logout`)._Question : pourquoi la requête est-elle de type POST dans ce cas ?_
 
 ## A propose de use state
 
