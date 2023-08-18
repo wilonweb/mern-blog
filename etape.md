@@ -27,7 +27,7 @@ D'après le cours YouTube :\
   - Effacer du contenu dans un cookie (`logout`)._Question : pourquoi la requête est-elle de type POST dans ce cas ?_
   - Verifier l'implémentation du userContext
 
-1. **Note sur le use state**\
+1. **Note sur le use state**
 
 **`setRedirect`** fonction React prédéfinis qui contrôle la redirection d'une page vers une autre
 
@@ -845,4 +845,11 @@ Maintenant l'application peut gerer les parametre de connection et déconnection
 
 Maintenat on vas faire en sorte de créer une page quand on clique sur le lien create a new page
 On commence par créer le composant `Page/CreatePost.js` Puis on définis la route dans `App.js`
-On installe `yarn add react-quill` pour nous fournir un éditeur de texté stylé
+On installe `yarn add react-quill` pour nous fournir un éditeur WYSIWYG.
+On créer une nouvelle `Page/CreatePost.js` et on y insère un formulaire poour écrire un nouvel article
+On initiali `react-quill`
+On paramètre le module formats pour ajouter des image. cf la [doc de react-quill](https://www.npmjs.com/package/react-quill#using-deltas)
+`<ReactQuill value={content} modules={modules} formats={formats} />`
+On gère les état des champs titre, résumé et contenue du formulaire
+
+1:53.06 Ajout du dossier uploads
