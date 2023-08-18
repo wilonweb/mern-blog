@@ -25,10 +25,11 @@ D'après le cours YouTube :\
   - Stocker ou récupérer une information dans une base de données (`register`).
   - Vérifier une information dans une base de données (`login`).
   - Effacer du contenu dans un cookie (`logout`)._Question : pourquoi la requête est-elle de type POST dans ce cas ?_
+  - Verifier l'implémentation du userContext
 
 1. ### Note sur le use state
 
-**`setRedirect`** est une fonction prédéfinis qui contrôle la redirection d'une page vers une autre en React
+**`setRedirect`** fonction React prédéfinis qui contrôle la redirection d'une page vers une autre
 
 ```js
 import React, { useState } from "react";
@@ -54,6 +55,21 @@ function RedirectExample() {
 
 export default RedirectExample;
 ```
+
+2. Note sur le useEffect
+
+3. Note sur le userContext
+   Le **contextProvider** fournit les données du contexte, et les composants qui ont besoin de ces données sont les **contextConsumer**. L'implémentation consiste à englober les **contextConsumer** avec le **contextProvider**, ce qui leur permet d'accéder aux données du contexte à l'aide de la fonction useContext.
+   cf [implémentation du User Context](#userContext)
+
+--
+Le contexte se compose de deux éléments principaux : **User Context Provider** et les **Context Consumers**.
+
+**User Context Provider** : C'est un composant parent qui contient les données que vous souhaitez partager. Il crée un "contexte" et fournit des valeurs aux composants enfants qui en ont besoin.
+
+**Context Consumers** : Ce sont les composants enfants qui souhaitent accéder aux données fournies par le contexte. Ils utilisent la fonction useContext (ou la méthode this.context dans les composants de classe) pour accéder aux valeurs du contexte.
+
+Le contexte est souvent utilisé pour des informations qui sont globales pour toute l'application, telles que les données de connexion de l'utilisateur, les thèmes, les langues, etc.
 
 ## Initialisation du projet
 
@@ -728,21 +744,105 @@ app.post("/logout", (req, res) => {
 Cependant à ce stade si on essaie de se relogger ça ne fonctionne pas car on ne dois pas stocker les information de l'utilisateur dans le header.
 On dois utiliser le **contexte** pour gérer ces informations.
 
+## User Context
+
+Pour régler notre probleme de mis a jour apres le logout nous allons stocker les information utilisateur dans le userContext
+
 Context est une fonctionnalité de React qui permet de gérer et de partager des données entre les composants sans avoir à les transmettre à travers les niveaux de l'arborescence des composants. Il permet de créer un espace de données partagé accessible à tous les composants enfants d'un certain composant parent.
 
-Le contexte se compose de deux éléments principaux : le fournisseur de contexte et les consommateurs de contexte.
+Le contexte se compose de deux éléments principaux : **User Context Provider** et les **Context Consumers**.
 
-**Fournisseur de contexte** : C'est un composant parent qui contient les données que vous souhaitez partager. Il crée un "contexte" et fournit des valeurs aux composants enfants qui en ont besoin.
+**User Context Provider** : C'est un composant parent qui contient les données que vous souhaitez partager. Il crée un "contexte" et fournit des valeurs aux composants enfants qui en ont besoin.
 
-**Consommateurs de contexte** : Ce sont les composants enfants qui souhaitent accéder aux données fournies par le contexte. Ils utilisent la fonction useContext (ou la méthode this.context dans les composants de classe) pour accéder aux valeurs du contexte.
+**Context Consumers** : Ce sont les composants enfants qui souhaitent accéder aux données fournies par le contexte. Ils utilisent la fonction useContext (ou la méthode this.context dans les composants de classe) pour accéder aux valeurs du contexte.
 
 Le contexte est souvent utilisé pour des informations qui sont globales pour toute l'application, telles que les données de connexion de l'utilisateur, les thèmes, les langues, etc.
 
-## User Context
+Voici les étapes de l'[implémentation du User Context](#userContext) d'un contexte utilisateur
 
-Création de `client/source/UserContext` ou on vas initialiser `createContext` afin de l'exporter dans le fichier `client/index.js` avec le composant `UserContextProvider`. Ce composant prendra les enfants comme parametre ...
+Création du fichier `client/source/UserContext.js` ou on vas initialiser `createContext` avec une valeur par défaut de l'objet vide.
 
-Ensuite dans notre header au lieu d'envoyer les informations du userName nous allons utiliser userContext pour mettre a jour les information de l'utilisateur pour cela
-( voir code et le commenter )
+On intègre le contexte utilisateur dans le fichier `app.js` avec le composant `UserContextProvider`. Ce composant englobera tout les éléments enfants a l'interieur de l'application, les routes sont également enveloppé.
 
-Puis on vas dans login
+Ensuite dans notre header au lieu d'envoyer les informations du userName nous allons utiliser userContext pour mettre a jour les information de l'utilisateur cf le code de `client/header.js`
+
+```js
+// Import des dépendances nécessaires depuis React
+
+import { useContext, useEffect } from "react";
+
+import { Link } from "react-router-dom";
+import { UserContext } from "./UserContext"; // Import du contexte utilisateur
+
+// Définition du composant Header
+export default function Header() {
+  // Utilisation du useContext pour accéder aux valeurs du contexte utilisateur
+  const { setUserInfo, userInfo } = useContext(UserContext);
+
+  // Utilisation de useEffect pour effectuer des actions lorsque le composant est monté
+  useEffect(() => {
+    // Appel à une API pour récupérer les informations du profil
+    fetch("http://localhost:4000/profile", {
+      credentials: "include",
+    }).then((response) => {
+      // Récupération des données JSON de la réponse
+      response.json().then((userInfo) => {
+        // Mise à jour des informations utilisateur dans le contexte
+        setUserInfo(userInfo);
+      });
+    });
+  }, []); // Le tableau vide signifie que cela se produit seulement au montage initial
+
+  // Fonction pour effectuer la déconnexion
+  function logout() {
+    // Appel à l'API pour effectuer la déconnexion
+    fetch("http://localhost:4000/logout", {
+      credentials: "include",
+      method: "POST",
+    });
+    // Effacement des informations utilisateur du contexte
+    setUserInfo(null);
+  }
+
+  // Récupération du nom d'utilisateur depuis les informations utilisateur
+  const username = userInfo?.username; // Vérification si l'utilisateur est nouveau
+
+  // Rendu du composant Header
+  return (
+    <header>
+      {/* Lien vers la page d'accueil */}
+      <Link to="/" className="logo">
+        My Blog Man
+      </Link>
+      <nav>
+        {/* Si un nom d'utilisateur est disponible */}
+        {username && (
+          <>
+            {/* Lien pour créer un nouvel article */}
+            <Link to="/create">Create new Post</Link>
+            {/* Lien pour effectuer la déconnexion */}
+            <a onClick={logout}>Logout</a>
+          </>
+        )}
+        {/* Si aucun nom d'utilisateur n'est disponible */}
+        {!username && (
+          <>
+            {/* Lien vers la page de connexion */}
+            <Link to="/login">Login</Link>
+            {/* Lien vers la page d'inscription */}
+            <Link to="/register">Register</Link>
+          </>
+        )}
+      </nav>
+    </header>
+  );
+}
+```
+
+Maintenant l'application peut gerer les parametre de connection et déconnection de l'application.
+
+## Create Single Page
+
+Maintenat on vas faire en sorte de créer une page quand on clique sur le lien create a new page
+On commence par créer le composant `Page/CreatePost.js` Puis on définis la route dans `App.js`
+On installe `yarn add react-quill` pour ...?
