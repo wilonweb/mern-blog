@@ -27,7 +27,7 @@ D'après le cours YouTube :\
   - Effacer du contenu dans un cookie (`logout`)._Question : pourquoi la requête est-elle de type POST dans ce cas ?_
   - Verifier l'implémentation du userContext
 
-1. ### Note sur le use state
+1. **Note sur le use state**\
 
 **`setRedirect`** fonction React prédéfinis qui contrôle la redirection d'une page vers une autre
 
@@ -56,9 +56,9 @@ function RedirectExample() {
 export default RedirectExample;
 ```
 
-2. Note sur le useEffect
+2. **Note sur le useEffect**
 
-3. Note sur le userContext
+3. **Note sur le userContext**\
    Le **contextProvider** fournit les données du contexte, et les composants qui ont besoin de ces données sont les **contextConsumer**. L'implémentation consiste à englober les **contextConsumer** avec le **contextProvider**, ce qui leur permet d'accéder aux données du contexte à l'aide de la fonction useContext.
    cf [implémentation du User Context](#userContext)
 
@@ -845,4 +845,4 @@ Maintenant l'application peut gerer les parametre de connection et déconnection
 
 Maintenat on vas faire en sorte de créer une page quand on clique sur le lien create a new page
 On commence par créer le composant `Page/CreatePost.js` Puis on définis la route dans `App.js`
-On installe `yarn add react-quill` pour ...?
+On installe `yarn add react-quill` pour nous fournir un éditeur de texté stylé
