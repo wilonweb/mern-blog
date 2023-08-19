@@ -760,11 +760,11 @@ Le contexte est souvent utilisé pour des informations qui sont globales pour to
 
 Voici les étapes de l'[implémentation du User Context](#userContext) d'un contexte utilisateur
 
-Création du fichier `client/source/UserContext.js` ou on vas initialiser `createContext` avec une valeur par défaut de l'objet vide.
+Création du fichier `client/src/UserContext.js` ou on vas initialiser `createContext` avec une valeur par défaut de l'objet vide.
 
 On intègre le contexte utilisateur dans le fichier `app.js` avec le composant `UserContextProvider`. Ce composant englobera tout les éléments enfants a l'interieur de l'application, les routes sont également enveloppé.
 
-Ensuite dans notre header au lieu d'envoyer les informations du userName nous allons utiliser userContext pour mettre a jour les information de l'utilisateur cf le code de `client/header.js`
+Ensuite dans notre header au lieu d'envoyer les informations du userName nous allons utiliser userContext pour mettre a jour les information de l'utilisateur cf le code de `client/Header.js`
 
 ```js
 // Import des dépendances nécessaires depuis React
