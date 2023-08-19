@@ -58,9 +58,8 @@ export default RedirectExample;
 
 2. **Note sur le useEffect**
 
-3. **Note sur le userContext**\
+3. **Note sur le userContext**
 
-   cf [implémentation du User Context](#userContext)
    ![MindMap Context](mindmap/React-Context.png)
 
 --
