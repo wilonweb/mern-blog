@@ -60,9 +60,10 @@ export default RedirectExample;
 
 3. **Note sur le userContext**
 
-   ![MindMap Context](mindmap/React-Context.png)
+---
 
---
+![MindMap Context](mindmap/React-Context.png)
+
 React Context Api se compose de deux éléments principaux : **User Context Provider**(`client/src.NameContext.js`) et les **Context Consumers**(qui sont les composant enfant qui récéptionne les donnée englobé par le context).
 
 **User Context Provider** : C'est un composant parent qui contient les données que vous souhaitez partager. Il crée un "contexte" et fournit des valeurs aux composants enfants qui en ont besoin.
