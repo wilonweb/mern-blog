@@ -73,6 +73,8 @@ React Context Api se compose de deux éléments principaux : **User Context Prov
 Chaque contexte est utilisé pour des informations qui sont globales pour toute l'application, telles que les données de connexion de l'utilisateur, les thèmes, les langues, etc.
 Il se déclare dans `client/src/NameContext.js` s'initialise dans une `const` qui servira d'argument au hook `useContext()`
 
+⚠️ Chaque composant provider englobes les routes dans `App.js` pour être fonctionel
+
 ## Initialisation du projet
 
 On commence par créer deux dossier
