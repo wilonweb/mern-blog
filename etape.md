@@ -61,6 +61,7 @@ export default RedirectExample;
 3. **Note sur le userContext**\
    Le **contextProvider** fournit les données du contexte, et les composants qui ont besoin de ces données sont les **contextConsumer**. L'implémentation consiste à englober les **contextConsumer** avec le **contextProvider**, ce qui leur permet d'accéder aux données du contexte à l'aide de la fonction useContext.
    cf [implémentation du User Context](#userContext)
+   ![MindMap Context](mindmap/React-Context.png)
 
 --
 Le contexte se compose de deux éléments principaux : **User Context Provider** et les **Context Consumers**.
