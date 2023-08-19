@@ -64,13 +64,13 @@ export default RedirectExample;
 
 ![MindMap Context](mindmap/React-Context.png)
 
-React Context Api se compose de deux éléments principaux : **User Context Provider**(`client/src.NameContext.js`) et les **Context Consumers**(qui sont les composant enfant qui récéptionne les donnée englobé par le context).
+React Context Api se compose de deux éléments principaux : **User Context Provider**(`client/src/NameContext.js`) et les **Context Consumers**(qui sont les composant enfant qui récéptionne les donnée englobé par le context).
 
 **User Context Provider** : C'est un composant parent qui contient les données que vous souhaitez partager. Il crée un "contexte" et fournit des valeurs aux composants enfants qui en ont besoin.
 
 **Context Consumers** : Ce sont les composants enfants qui souhaitent accéder aux données fournies par le contexte. Ils utilisent la fonction useContext (ou la méthode this.context dans les composants de classe) pour accéder aux valeurs du contexte.
 
-Chaque contexte est utilisé pour des informations qui sont globales pour toute l'application, telles que les données de connexion de l'utilisateur, les thèmes, les langues, etc.
+Chaque contexte est utilisé pour des informations qui sont globales pour toute l'application, telles que les données de connexion de l'utilisateur, les thèmes, les langues, etc.\
 Il se déclare dans `client/src/NameContext.js` s'initialise dans une `const` qui servira d'argument au hook `useContext()`
 
 ⚠️ Chaque composant provider englobes les routes dans `App.js` pour être fonctionel
