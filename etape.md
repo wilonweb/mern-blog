@@ -71,7 +71,7 @@ React Context Api se compose de deux éléments principaux : **User Context Prov
 **Context Consumers** : Ce sont les composants enfants qui souhaitent accéder aux données fournies par le contexte. Ils utilisent la fonction useContext (ou la méthode this.context dans les composants de classe) pour accéder aux valeurs du contexte.
 
 Chaque contexte est utilisé pour des informations qui sont globales pour toute l'application, telles que les données de connexion de l'utilisateur, les thèmes, les langues, etc.\
-Il se déclare dans `client/src/NameContext.js` s'initialise dans une `const` qui servira d'argument au hook `useContext()`
+Il se déclare dans `client/src/NameContext.js` s'initialise dans une `const` qui servira d'argument au hook `useContext()` pour gérer les contextes et partager des données entre les composants de manière efficace.
 
 ⚠️ Chaque composant provider englobes les routes dans `App.js` pour être fonctionel
 
@@ -847,13 +847,18 @@ Maintenant l'application peut gerer les parametre de connection et déconnection
 
 ## Create Single Page
 
-Maintenat on vas faire en sorte de créer une page quand on clique sur le lien create a new page
+Maintenant on vas faire en sorte de créer une page quand on clique sur le lien create a new page
 On commence par créer le composant `Page/CreatePost.js` Puis on définis la route dans `App.js`
 On installe `yarn add react-quill` pour nous fournir un éditeur WYSIWYG.
-On créer une nouvelle `Page/CreatePost.js` et on y insère un formulaire poour écrire un nouvel article
-On initiali `react-quill`
-On paramètre le module formats pour ajouter des image. cf la [doc de react-quill](https://www.npmjs.com/package/react-quill#using-deltas)
+On créer une nouvelle `Page/CreatePost.js` et on y insère un formulaire pour écrire un nouvel article
+On initialise `react-quill`
+
+On paramètre le module formats pour ajouter l'icone d'uplad de fichier. cf la [doc de react-quill](https://www.npmjs.com/package/react-quill#using-deltas)
 `<ReactQuill value={content} modules={modules} formats={formats} />`
 On gère les état des champs titre, résumé et contenue du formulaire
 
-1:53.06 Ajout du dossier uploads
+Ensuite on créer la fonction `createPost` afin d'envoyer au endppoint de l'API le contenue de l'article
+
+<form onSubmit={createNewPost}> !! Se souvenir d'appeler la fonction lors de l'apelle du formulaire
+
+On telecharge le `yarn add multer`
